@@ -16,7 +16,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 # Connects our Flask App to our Database
 DATABASE_URL = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = "/home/simon/karting-v2/database"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
