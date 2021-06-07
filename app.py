@@ -46,4 +46,6 @@ def index():
     print(races)
     return render_template("home.html", races=races)
 
-
+# testing
+races = Race.query.all()
+print(races)
