@@ -43,6 +43,7 @@ class Race(db.Model):
 @app.route('/')
 def index():
     races = Race.query.all()
+    print(races)
     return render_template("home.html", races=races)
 
 
