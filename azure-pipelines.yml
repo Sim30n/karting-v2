@@ -14,10 +14,7 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-    pwd
-    /home/simon/karting-v2/venv/bin activate
+    source /home/simon/karting-v2/venv/bin/activate
     pip install -r requirements.txt 
 
   displayName: 'Run a multi-line script'
