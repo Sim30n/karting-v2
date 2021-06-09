@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Add on migration capabilities in order to run terminal commands
-Migrate(app,db)
+# Migrate(app,db)
 
 class Race(db.Model):
 
@@ -47,10 +47,3 @@ def index():
     races = ["asd", "asd2"]
     return render_template("home.html", races=races)
 
-if __name__ == '__main__':
-    app.run()
-
-
-# testing
-#races = Race.query.all()
-#print(races)
