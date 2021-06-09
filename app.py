@@ -47,6 +47,10 @@ def index():
     races = ["asd", "asd2"]
     return render_template("home.html", races=races)
 
+if __name__ == '__main__':
+    app.run()
+
+
 # testing
 #races = Race.query.all()
 #print(races)
