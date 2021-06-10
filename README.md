@@ -26,3 +26,9 @@ $env:DEBUG=1
 export FLASK_APP ="app.py"
 export FLASK_ENV="development"
 export DEBUG=1
+
+----------------------------
+# Migrations
+flask db init
+flask db migrate -m "message"
+flask db upgrade
