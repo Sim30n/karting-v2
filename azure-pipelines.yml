@@ -18,6 +18,9 @@ steps:
     echo See https://aka.ms/yaml
     pwd
     source /home/simon/karting-v2/venv/bin/activate
-    pip install -r requirements.txt 
+    pip3 install -r requirements.txt 
+    export FLASK_APP ="app.py"
+    flask db migrate -m "message"
+    flask db upgrade
 
   displayName: 'Run a multi-line script'
