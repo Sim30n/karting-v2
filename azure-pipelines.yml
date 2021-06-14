@@ -19,7 +19,8 @@ steps:
     pwd
     source /home/simon/karting-v2/venv/bin/activate
     pip3 install -r requirements.txt 
-    export FLASK_APP ="app.py"
+    export FLASK_APP="app.py"
+    export DATABASE_URL=$(DATABASE_URL)
     flask db migrate -m "message"
     flask db upgrade
 
