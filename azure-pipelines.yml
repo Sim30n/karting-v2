@@ -9,10 +9,6 @@ trigger:
 pool:
   name: Default
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
@@ -21,7 +17,8 @@ steps:
     pip3 install -r requirements.txt 
     export FLASK_APP="app.py"
     export DATABASE_URL=$(DATABASE_URL)
+    flask db init
     flask db migrate -m "message"
     flask db upgrade
 
-  displayName: 'Run a multi-line script'
+  displayName: 'DB Stuff'
