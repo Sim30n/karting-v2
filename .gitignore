@@ -130,7 +130,7 @@ dmypy.json
 
 # own
 data.sqlite
-setupDatabase.py
+#setupDatabase.py
 migrations/
 notes.txt
 
