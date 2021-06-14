@@ -9,6 +9,8 @@ trigger:
 pool:
   name: Default
 
+steps:
+
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
@@ -20,5 +22,4 @@ pool:
     flask db init
     flask db migrate -m "message"
     flask db upgrade
-
-  displayName: 'DB Stuff'
+  displayName: 'Run a multi-line script'
