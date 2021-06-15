@@ -1,4 +1,4 @@
-from models import db, Race
+from app import db, Race
 import datetime
 
 db.create_all()
