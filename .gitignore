@@ -130,8 +130,6 @@ dmypy.json
 
 # own
 data.sqlite
-#setupDatabase.py
-migrations/
 notes.txt
 
 
