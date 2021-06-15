@@ -17,8 +17,14 @@ load_dotenv()
 app = Flask(__name__)
 # Connects our Flask App to our Database
 DATABASE_URL = os.environ['DATABASE_URL']
+FLASK_APP = os.environ['FLASK_APP']
+FLASK_ENV = os.environ['FLASK_ENV']
+DEBUG = os.environ['DEBUG']
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['FLASK_APP'] = FLASK_APP
+app.config['FLASK_ENV'] = FLASK_ENV
+app.config['DEBUG'] = DEBUG
 
 db = SQLAlchemy(app)
 
@@ -40,6 +46,20 @@ class Race(db.Model):
     def __repr__(self):
 
         return f"Race {self.location} : {self.race_date}"
+
+class Result(db.Model):
+
+    __tablename__ = 'races'
+
+    id = db.Column(db.Integer, primary_key=True)
+    driver_id = # foreing key
+    race_id = # foreing key
+    position = db.Column(db.Integer)
+
+    def __init__(self,driver_id, race_id, position):
+        self.driver_id = driver_id
+        self.race_id = race_id
+        self.position = position
 
 @app.route('/')
 def index():
