@@ -120,7 +120,7 @@ def index():
 
     #results = Result.query.all()
     """ Get races by location"""
-    result = Result.query.join(Race).join(Driver).filter(*queries).all()
+    result = Result.query.join(Race).join(Driver).filter(*queries).order_by(Result.position).all()
     #result = Result.query.join(Race).join(Driver).filter(Race.location.ilike(search_location)).all()
 
     """ Get lap times by location and driver name """
