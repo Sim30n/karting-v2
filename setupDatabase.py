@@ -16,6 +16,7 @@ imatra = Race.query.filter_by(location='Imatra').all()[0]
 
 result1 = Result(petteri.id, imatra.id, 3, "qualifying")
 result2 = Result(lauri.id, imatra.id, 2, "qualifying")
+print(result1)
 lap1 = Lap(imatra.id, petteri.id, 52.34, 1, "qualifying")
 
 db.session.add_all([result1, result2, lap1])

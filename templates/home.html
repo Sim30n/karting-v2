@@ -14,7 +14,7 @@
     </ul>
     <ul>
       {% for l in lap_times  %}
-      <li>{{l.driver.name}}</li>
+      <li>{{l.driver.name, l.lap_time}}</li>
       {% endfor %}
   </ul>
 </body>

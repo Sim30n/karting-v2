@@ -125,6 +125,7 @@ def index():
 
     """ Get lap times by location and driver name """
     lap_times = Lap.query.join(Race).join(Driver).filter(*queries).all()
+    print(dir(lap_times[0]))
     #print(result[0].driver.name)
     #print(dir(test_query[0]))
     #print(test_query[0].driver.name)
