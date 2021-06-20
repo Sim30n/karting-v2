@@ -12,8 +12,36 @@
   </head>
   <body>
       <h1>Hello, world!</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for r in result  %}
+            <tr>
+            <th scope="row">1</th>
+              {% for l in lap_times  %}
+                {% if l.lap_number == 1 %}
+                  <td>{{l.lap_time}}</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          
+        </tbody>
+      </table>
       <ul>
           {% for r in result  %}
+            {% for l in lap_times  %}
+            <li>{{l.driver.name, l.lap_time}}</li>
+            {% endfor %}
+
           <li>{{r.driver.name}}</li>
           {% endfor %}
       </ul>

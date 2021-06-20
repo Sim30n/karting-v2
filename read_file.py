@@ -63,7 +63,7 @@ for r in results:
     lap_num = 1
     for lap in r.lap_times:
         if lap != "":
-           lap_to_db = Lap(location.id, driver.id, float(lap), lap_num, r.race_type)
+           lap_to_db = Lap(location.id, driver.id, float(lap), int(lap_num), r.race_type)
         to_db.append(lap_to_db)
         lap_num += 1
 db.session.add_all(to_db)

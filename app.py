@@ -97,6 +97,7 @@ class Lap(db.Model):
         self.race_id = race_id
         self.driver_id = driver_id
         self.lap_time = lap_time
+        self.lap_number = lap_number
         self.race_type = race_type
 
 
@@ -125,7 +126,8 @@ def index():
 
     """ Get lap times by location and driver name """
     lap_times = Lap.query.join(Race).join(Driver).filter(*queries).all()
-    #print(dir(lap_times[0]))
+    print(dir(lap_times[0]))
+    print(lap_times[0].lap_time)
     #print(result[0].driver.name)
     #print(dir(test_query[0]))
     #print(test_query[0].driver.name)
