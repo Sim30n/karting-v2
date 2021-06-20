@@ -17,7 +17,7 @@ venv\bin\activate
 ----------------------------
 # Flask config to local environment
 
-## On Windows 
+## On Windows Power Shell
 $env:FLASK_APP ="app.py"
 $env:FLASK_ENV="development"
 $env:DEBUG=1

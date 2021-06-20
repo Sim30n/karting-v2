@@ -8,9 +8,14 @@
 </head>
 <body>
     <ul>
-        {% for race in races  %}
-        <li>{{race}}</li>
+        {% for r in result  %}
+        <li>{{r.driver.name}}</li>
         {% endfor %}
-      </ul>
+    </ul>
+    <ul>
+      {% for l in lap_times  %}
+      <li>{{l.driver.name}}</li>
+      {% endfor %}
+  </ul>
 </body>
 </html>
