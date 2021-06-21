@@ -109,31 +109,44 @@ def index():
     
     driver = request.args.get("driver")
     driver_name = "%{}%".format(driver)
-    print(driver)
 
     queries = []
     if driver:
         queries.append(Driver.name.ilike(driver_name))
     if location:
         queries.append(Race.location.ilike(search_location))
-    #print(queries)
     
-
-    #results = Result.query.all()
     """ Get races by location"""
     result = Result.query.join(Race).join(Driver).filter(*queries).order_by(Result.position).all()
     #result = Result.query.join(Race).join(Driver).filter(Race.location.ilike(search_location)).all()
 
     """ Get lap times by location and driver name """
     lap_times = Lap.query.join(Race).join(Driver).filter(*queries).all()
-    print(dir(lap_times[0]))
-    print(lap_times[0].lap_time)
-    #print(result[0].driver.name)
-    #print(dir(test_query[0]))
-    #print(test_query[0].driver.name)
-    #imatra = Race.query.filter_by(location="Imatra").first()
-    #print(races)
-    #races = ["asd", "asd2"]
 
-    return render_template("home.html", result=result, lap_times=lap_times)
+    #print(dir(result))
+    #print(dir(lap_times[0]))
+
+    # number of laps
+    for lap in lap_times:
+        num_of_laps = 0
+        if num_of_laps < lap.lap_number:
+            num_of_laps = lap.lap_number
+    
+    # initialize lap time matrix
+    lap_matrix=[[""]*len(result) for i in range(num_of_laps+1)]
+
+    # add drivers to lap time matrix
+    for i in range(len(result)):
+        lap_matrix[0][i] = result[i].driver.name
+
+    # add lap times to lap time matrix
+    for lap in lap_times:
+        driver_index = lap_matrix[0].index(lap.driver.name)
+        lap_num = lap.lap_number 
+        lap_matrix[lap_num][driver_index] = lap.lap_time
+        
+    return render_template("home.html", 
+                           result=result, 
+                           lap_matrix=lap_matrix[1:],
+                           drivers=lap_matrix[0])
 
