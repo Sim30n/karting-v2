@@ -1,6 +1,14 @@
 import csv
 import datetime
 from app import db, Race, Driver, Result, Lap
+import argparse
+
+my_parser = argparse.ArgumentParser(allow_abbrev=False)
+my_parser.add_argument('--file', action='store', type=str, required=True)
+
+args = my_parser.parse_args()
+
+print(args.file)
 
 class Result_class:
     def __init__(self, location, driver, race_type, race_date):
@@ -12,7 +20,7 @@ class Result_class:
         self.lap_times = []
 
 
-file_name = "imatra_qualifying_lap_times.csv"
+file_name = args.file
 results = []
 
 with open(file_name, newline='') as csv_file:
@@ -37,7 +45,10 @@ with open(file_name, newline='') as csv_file:
                 results[i].position = row[i]
         elif line_count > 3:
             for i in range(len(results)):
-                results[i].lap_times.append(row[i])
+                try:
+                    results[i].lap_times.append(row[i])
+                except IndexError:
+                    pass
         line_count += 1
 
 db.create_all()

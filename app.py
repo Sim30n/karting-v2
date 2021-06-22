@@ -110,11 +110,18 @@ def index():
     driver = request.args.get("driver")
     driver_name = "%{}%".format(driver)
 
+    race_type = request.args.get("race_type")
+    race_t = "%{}%".format(race_type)
+
     queries = []
     if driver:
         queries.append(Driver.name.ilike(driver_name))
     if location:
         queries.append(Race.location.ilike(search_location))
+    if race_type:
+        queries.append(Result.race_type.ilike(race_t))
+        queries.append(Lap.race_type.ilike(race_t))
+
     
     """ Get races by location"""
     result = Result.query.join(Race).join(Driver).filter(*queries).order_by(Result.position).all()
@@ -125,6 +132,16 @@ def index():
 
     #print(dir(result))
     #print(dir(lap_times[0]))
+
+    lap_matrix = make_lap_time_matrix(result, lap_times)
+        
+    return render_template("home.html", 
+                           result=result, 
+                           lap_matrix=lap_matrix[0],
+                           drivers=lap_matrix[1])
+
+
+def make_lap_time_matrix(result, lap_times):
 
     # number of laps
     for lap in lap_times:
@@ -144,9 +161,5 @@ def index():
         driver_index = lap_matrix[0].index(lap.driver.name)
         lap_num = lap.lap_number 
         lap_matrix[lap_num][driver_index] = lap.lap_time
-        
-    return render_template("home.html", 
-                           result=result, 
-                           lap_matrix=lap_matrix[1:],
-                           drivers=lap_matrix[0])
 
+    return lap_matrix[1:], lap_matrix[0]
