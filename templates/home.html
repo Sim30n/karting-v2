@@ -53,17 +53,15 @@
     </div>
     
 
-    <script>
+    <script type="text/javascript">
+    
       
       // === include 'setup' then 'config' above ===
       
       const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
+        {% for driver in drivers  %}
+          "{{ driver }}",
+        {% endfor %}
       ];
       const data = {
         labels: labels,
