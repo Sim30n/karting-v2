@@ -45,10 +45,7 @@ with open(file_name, newline='') as csv_file:
                 results[i].position = row[i]
         elif line_count > 3:
             for i in range(len(results)):
-                try:
-                    results[i].lap_times.append(row[i])
-                except IndexError:
-                    pass
+                results[i].lap_times.append(row[i])
         line_count += 1
 
 db.create_all()
@@ -74,7 +71,10 @@ for r in results:
     lap_num = 1
     for lap in r.lap_times:
         if lap != "":
-           lap_to_db = Lap(location.id, driver.id, float(lap), int(lap_num), r.race_type)
+            lap = float(lap)
+        else:
+            lap = None
+        lap_to_db = Lap(location.id, driver.id, lap, int(lap_num), r.race_type)
         to_db.append(lap_to_db)
         lap_num += 1
 db.session.add_all(to_db)

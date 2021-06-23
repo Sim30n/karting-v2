@@ -29,7 +29,11 @@
               <tr>
               <th scope="row">{{ loop.index }}</th>
                 {% for lap_time in lap  %}
-                    <td>{{ lap_time }}</td>
+                  {% if lap_time != None %}
+                      <td>{{ lap_time }}</td>
+                  {% else %}
+                      <td></td>
+                  {% endif %}
                 {% endfor %}
               </tr>
               {% endfor %}
