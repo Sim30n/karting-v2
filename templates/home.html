@@ -63,7 +63,7 @@ const data = {
   {% for r in lap_class %}
   {
     label: '{{ r.name }}',
-    backgroundColor: dynamicColors(),
+    borderColor: dynamicColors(),
     data: [{% for lap in r.lap_list %} {% if lap != None %}{{ lap }}, {% endif%}{% endfor %}],
   },
   {% endfor %}
