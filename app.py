@@ -100,17 +100,20 @@ class Lap(db.Model):
         self.lap_number = lap_number
         self.race_type = race_type
 
+class Laptimes:
+    def __init__(self, name, lap_list):
+        self.name = name
+        self.lap_list = lap_list
 
-
-@app.route('/')
-def index():
-    location = request.args.get("location")
+@app.route('/<location>/<race_type>')
+def get_location(location, race_type):
+    #location = request.args.get("location")
     search_location = "%{}%".format(location)
     
     driver = request.args.get("driver")
     driver_name = "%{}%".format(driver)
 
-    race_type = request.args.get("race_type")
+    #race_type = request.args.get("race_type")
     race_t = "%{}%".format(race_type)
 
     queries = []
@@ -130,7 +133,7 @@ def index():
     """ Get lap times by location and driver name """
     lap_times = Lap.query.join(Race).join(Driver).filter(*queries).all()
 
-    #print(dir(result))
+    #print(dir(result[0]))
     #print(dir(lap_times[0]))
 
     lap_matrix = make_lap_time_matrix(result, lap_times)
@@ -138,7 +141,9 @@ def index():
     return render_template("home.html", 
                            result=result, 
                            lap_matrix=lap_matrix[0],
-                           drivers=lap_matrix[1])
+                           drivers=lap_matrix[1],
+                           num_of_laps=lap_matrix[2],
+                           lap_class=lap_matrix[3])
 
 
 def make_lap_time_matrix(result, lap_times):
@@ -151,15 +156,19 @@ def make_lap_time_matrix(result, lap_times):
     
     # initialize lap time matrix
     lap_matrix=[[""]*len(result) for i in range(num_of_laps+1)]
+    lap_class = []
 
     # add drivers to lap time matrix
     for i in range(len(result)):
         lap_matrix[0][i] = result[i].driver.name
+        lap_times_init =[None for i in range(num_of_laps)] 
+        lap_class.append(Laptimes(result[i].driver.name, lap_times_init))
 
     # add lap times to lap time matrix
     for lap in lap_times:
         driver_index = lap_matrix[0].index(lap.driver.name)
         lap_num = lap.lap_number 
         lap_matrix[lap_num][driver_index] = lap.lap_time
+        lap_class[driver_index].lap_list[lap_num-1] = lap.lap_time
 
-    return lap_matrix[1:], lap_matrix[0]
+    return lap_matrix[1:], lap_matrix[0], num_of_laps, lap_class

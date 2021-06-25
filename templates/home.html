@@ -1,90 +1,85 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "base.html" %}      
+{% block content %}    
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
-    <title>Karting stats</title>
-  </head>
-  <body>
-          
-      <h1>Stats</h1>
-      
-      <!-- lap time matrix -->
-      <div class="container">
-        <table class="table">
-          <thead>
-            <tr>
-                <th scope="col">#</th>
-              {% for driver in drivers  %}
-                <th scope="col">{{ driver }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-              {% for lap in lap_matrix %}
-              <tr>
-              <th scope="row">{{ loop.index }}</th>
-                {% for lap_time in lap  %}
-                  {% if lap_time != None %}
-                      <td>{{ lap_time }}</td>
-                  {% else %}
-                      <td></td>
-                  {% endif %}
-                {% endfor %}
-              </tr>
-              {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      
-
-      <!-- Chartjs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <div class="container">
-      <div>
-        <canvas id="myChart"></canvas>
-      </div>
-    </div>
-    
-
-    <script type="text/javascript">
-    
-      
-      // === include 'setup' then 'config' above ===
-      
-      const labels = [
+<!-- lap time matrix -->
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+          <th scope="col">#</th>
         {% for driver in drivers  %}
-          "{{ driver }}",
+          <th scope="col">{{ driver }}</th>
         {% endfor %}
-      ];
-      const data = {
-        labels: labels,
-        datasets: [{
-          label: 'My First dataset',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [0, 10, 5, 2, 20, 30, 45],
-        }]
-      };
+      </tr>
+    </thead>
+    <tbody>
+        {% for lap in lap_matrix %}
+        <tr>
+        <th scope="row">{{ loop.index }}</th>
+          {% for lap_time in lap  %}
+            {% if lap_time != None %}
+                <td>{{ lap_time }}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-      const config = {
-        type: 'line',
-        data,
-        options: {}
-      };
 
-      var myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-      );
-    </script>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-  </body>
-</html>
+<!-- Chartjs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container">
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+</div>
+
+<script type="text/javascript">
+
+
+// === include 'setup' then 'config' above ===
+
+const labels = [
+  {% for lap_num in range(num_of_laps)  %}
+    "{{ lap_num + 1 }}",
+  {% endfor %}
+];
+
+let dynamicColors = function() {
+  let r = Math.floor(Math.random() * 255);
+  let g = Math.floor(Math.random() * 255);
+  let b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+};
+
+const data = {
+  labels: labels,
+  datasets: [
+  {% for r in lap_class %}
+  {
+    label: '{{ r.name }}',
+    backgroundColor: dynamicColors(),
+    data: [{% for lap in r.lap_list %} {% if lap != None %}{{ lap }}, {% endif%}{% endfor %}],
+  },
+  {% endfor %}
+  ]
+};
+
+const config = {
+  type: 'line',
+  data,
+  options: {}
+};
+
+var myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
+
+</script>
+{% endblock %}
