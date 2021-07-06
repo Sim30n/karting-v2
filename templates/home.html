@@ -1,6 +1,26 @@
 {% extends "base.html" %}      
 {% block content %}   
 
+<!-- qualifying result table -->
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Positio</th>
+        <th scope="col">Nimi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for driver in qualifying_result  %}
+      <tr>
+        <th scope="row">{{ driver.position }}</th>
+        <td>{{ driver.driver.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 <!-- qualifying race lap time matrix -->
 <div class="container">
   <table class="table">
@@ -76,6 +96,26 @@ var chart = new Chart(
   config
 );
 </script>
+
+<!-- race result table -->
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Positio</th>
+        <th scope="col">Nimi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for driver in race_result  %}
+      <tr>
+        <th scope="row">{{ driver.position }}</th>
+        <td>{{ driver.driver.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 <!-- race lap time matrix -->
 <div class="container">

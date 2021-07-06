@@ -105,8 +105,8 @@ class Laptimes:
         self.name = name
         self.lap_list = lap_list
 
-@app.route('/<location>/<race_type>')
-def get_location(location, race_type):
+@app.route('/<location>/')
+def get_location(location):
     #location = request.args.get("location")
     search_location = "%{}%".format(location)
     
@@ -114,25 +114,23 @@ def get_location(location, race_type):
     driver_name = "%{}%".format(driver)
 
     #race_type = request.args.get("race_type")
-    race_t = "%{}%".format(race_type)
+    #race_t = "%{}%".format(race_type)
 
     race_queries = []
     if driver:
         race_queries.append(Driver.name.ilike(driver_name))
     if location:
         race_queries.append(Race.location.ilike(search_location))
-    if race_type:
-        race_queries.append(Result.race_type.ilike("Race"))
-        race_queries.append(Lap.race_type.ilike("Race"))
+    race_queries.append(Result.race_type.ilike("Race"))
+    race_queries.append(Lap.race_type.ilike("Race"))
 
     qualifying_queries = []
     if driver:
         qualifying_queries.append(Driver.name.ilike(driver_name))
     if location:
         qualifying_queries.append(Race.location.ilike(search_location))
-    if race_type:
-        qualifying_queries.append(Result.race_type.ilike("Qualifying"))
-        qualifying_queries.append(Lap.race_type.ilike("Qualifying"))
+    qualifying_queries.append(Result.race_type.ilike("Qualifying"))
+    qualifying_queries.append(Lap.race_type.ilike("Qualifying"))
     
     """ Get race by location"""
     race_result = Result.query.join(Race).join(Driver).filter(*race_queries).order_by(Result.position).all()
@@ -148,12 +146,10 @@ def get_location(location, race_type):
     """ Get qualifying lap times by location and driver name """
     qualifying_lap_times = Lap.query.join(Race).join(Driver).filter(*qualifying_queries).all()
 
-    #print(dir(result[0]))
-    #print(dir(lap_times[0]))
-
+    """ Make lapt time matrix"""
     race_lap_matrix = make_lap_time_matrix(race_result, race_lap_times)
     qualifying_lap_matrix = make_lap_time_matrix(qualifying_result, qualifying_lap_times)
-        
+
     return render_template("home.html", 
                            race_result=race_result, 
                            race_lap_matrix=race_lap_matrix[0],
