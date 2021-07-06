@@ -1,19 +1,19 @@
 {% extends "base.html" %}      
-{% block content %}    
+{% block content %}   
 
-<!-- lap time matrix -->
+<!-- qualifying race lap time matrix -->
 <div class="container">
   <table class="table">
     <thead>
       <tr>
           <th scope="col">#</th>
-        {% for driver in drivers  %}
+        {% for driver in qualifying_drivers  %}
           <th scope="col">{{ driver }}</th>
         {% endfor %}
       </tr>
     </thead>
     <tbody>
-        {% for lap in lap_matrix %}
+        {% for lap in qualifying_lap_matrix %}
         <tr>
         <th scope="row">{{ loop.index }}</th>
           {% for lap_time in lap  %}
@@ -29,23 +29,17 @@
   </table>
 </div>
 
-
-<!-- Chartjs -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <div class="container">
 <div>
-  <canvas id="myChart"></canvas>
+  <canvas id="qualifyingChart"></canvas>
 </div>
 </div>
 
+<!-- Qualifying chart script -->
 <script type="text/javascript">
 
-
-// === include 'setup' then 'config' above ===
-
 const labels = [
-  {% for lap_num in range(num_of_laps)  %}
+  {% for lap_num in range(qualifying_num_of_laps)  %}
     "{{ lap_num + 1 }}",
   {% endfor %}
 ];
@@ -60,7 +54,7 @@ let dynamicColors = function() {
 const data = {
   labels: labels,
   datasets: [
-  {% for r in lap_class %}
+  {% for r in qualifying_lap_class %}
   {
     label: '{{ r.name }}',
     borderColor: dynamicColors(),
@@ -76,10 +70,88 @@ const config = {
   options: {}
 };
 
-var myChart = new Chart(
-  document.getElementById('myChart'),
+var ctx = document.getElementById('qualifyingChart').getContext('2d');
+var chart = new Chart(
+  ctx,
   config
 );
-
 </script>
+
+<!-- race lap time matrix -->
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+          <th scope="col">#</th>
+        {% for driver in race_drivers  %}
+          <th scope="col">{{ driver }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+        {% for lap in race_lap_matrix %}
+        <tr>
+        <th scope="row">{{ loop.index }}</th>
+          {% for lap_time in lap  %}
+            {% if lap_time != None %}
+                <td>{{ lap_time }}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Race chart -->
+<div class="container">
+<div>
+  <canvas id="raceChart"></canvas>
+</div>
+</div>
+
+<!-- Race chart script -->
+<script type="text/javascript">
+
+const labels2 = [
+  {% for lap_num in range(race_num_of_laps)  %}
+    "{{ lap_num + 1 }}",
+  {% endfor %}
+];
+
+let dynamicColors2 = function() {
+  let r = Math.floor(Math.random() * 255);
+  let g = Math.floor(Math.random() * 255);
+  let b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+};
+
+const data2 = {
+  labels: labels2,
+  datasets: [
+  {% for r in race_lap_class %}
+  {
+    label: '{{ r.name }}',
+    borderColor: dynamicColors2(),
+    data: [{% for lap in r.lap_list %} {% if lap != None %}{{ lap }}, {% endif%}{% endfor %}],
+  },
+  {% endfor %}
+  ]
+};
+
+const config2 = {
+  type: 'line',
+  data2,
+  options: {}
+};
+
+var ctx2 = document.getElementById('raceChart').getContext('2d');
+var chart2 = new Chart(
+  ctx2,
+  config2
+);
+</script>
+
 {% endblock %}
