@@ -146,7 +146,7 @@ def get_location(location):
     """ Get qualifying lap times by location and driver name """
     qualifying_lap_times = Lap.query.join(Race).join(Driver).filter(*qualifying_queries).all()
 
-    """ Make lapt time matrix"""
+    """ Make lap time matrix"""
     race_lap_matrix = make_lap_time_matrix(race_result, race_lap_times)
     qualifying_lap_matrix = make_lap_time_matrix(qualifying_result, qualifying_lap_times)
 
@@ -166,8 +166,9 @@ def get_location(location):
 def make_lap_time_matrix(result, lap_times):
 
     # number of laps
+    num_of_laps = 0
     for lap in lap_times:
-        num_of_laps = 0
+        
         if num_of_laps < lap.lap_number:
             num_of_laps = lap.lap_number
     

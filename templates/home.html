@@ -1,58 +1,125 @@
 {% extends "base.html" %}      
 {% block content %}   
 
-<!-- qualifying result table -->
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Positio</th>
-        <th scope="col">Nimi</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for driver in qualifying_result  %}
-      <tr>
-        <th scope="row">{{ driver.position }}</th>
-        <td>{{ driver.driver.name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+<div class="container" style="margin-top:100px; margin-bottom:100px">
 
-<!-- qualifying race lap time matrix -->
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-          <th scope="col">#</th>
-        {% for driver in qualifying_drivers  %}
-          <th scope="col">{{ driver }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-        {% for lap in qualifying_lap_matrix %}
+  <h1 style="text-align: center">AIKA-AJOT</h1>
+
+  <!-- qualifying result table -->
+  <div class="container">
+    <table class="table">
+      <thead>
         <tr>
-        <th scope="row">{{ loop.index }}</th>
-          {% for lap_time in lap  %}
-            {% if lap_time != None %}
-                <td>{{ lap_time }}</td>
-            {% else %}
-                <td></td>
-            {% endif %}
-          {% endfor %}
+          <th scope="col">Positio</th>
+          <th scope="col">Nimi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for driver in qualifying_result  %}
+        <tr>
+          <th scope="row">{{ driver.position }}</th>
+          <td>{{ driver.driver.name }}</td>
         </tr>
         {% endfor %}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- qualifying race lap time matrix -->
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">#</th>
+          {% for driver in qualifying_drivers  %}
+            <th scope="col">{{ driver }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+          {% for lap in qualifying_lap_matrix %}
+          <tr>
+          <th scope="row">{{ loop.index }}</th>
+            {% for lap_time in lap  %}
+              {% if lap_time != None %}
+                  <td>{{ lap_time }}</td>
+              {% else %}
+                  <td></td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container">
+  <div>
+    <canvas id="qualifyingChart"></canvas>
+  </div>
+  </div>
+
 </div>
 
-<div class="container">
-<div>
-  <canvas id="qualifyingChart"></canvas>
-</div>
+<div class="container" style="margin-top:100px; margin-bottom:100px">
+
+  <h1 style="text-align: center">KISA</h1>
+
+  <!-- race result table -->
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Positio</th>
+          <th scope="col">Nimi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for driver in race_result  %}
+        <tr>
+          <th scope="row">{{ driver.position }}</th>
+          <td>{{ driver.driver.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- race lap time matrix -->
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">#</th>
+          {% for driver in race_drivers  %}
+            <th scope="col">{{ driver }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+          {% for lap in race_lap_matrix %}
+          <tr>
+          <th scope="row">{{ loop.index }}</th>
+            {% for lap_time in lap  %}
+              {% if lap_time != None %}
+                  <td>{{ lap_time }}</td>
+              {% else %}
+                  <td></td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Race chart -->
+  <div class="container">
+  <div>
+    <canvas id="raceChart"></canvas>
+  </div>
+  </div>
+  
 </div>
 
 <!-- Qualifying chart script -->
@@ -96,61 +163,6 @@ var chart = new Chart(
   config
 );
 </script>
-
-<!-- race result table -->
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Positio</th>
-        <th scope="col">Nimi</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for driver in race_result  %}
-      <tr>
-        <th scope="row">{{ driver.position }}</th>
-        <td>{{ driver.driver.name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<!-- race lap time matrix -->
-<div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-          <th scope="col">#</th>
-        {% for driver in race_drivers  %}
-          <th scope="col">{{ driver }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-        {% for lap in race_lap_matrix %}
-        <tr>
-        <th scope="row">{{ loop.index }}</th>
-          {% for lap_time in lap  %}
-            {% if lap_time != None %}
-                <td>{{ lap_time }}</td>
-            {% else %}
-                <td></td>
-            {% endif %}
-          {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<!-- Race chart -->
-<div class="container">
-<div>
-  <canvas id="raceChart"></canvas>
-</div>
-</div>
 
 <!-- Race chart script -->
 <script type="text/javascript">
