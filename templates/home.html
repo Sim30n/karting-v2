@@ -12,13 +12,15 @@
         <tr>
           <th scope="col">Positio</th>
           <th scope="col">Nimi</th>
+          <th scope="col">Paras kierrosaika</th>
         </tr>
       </thead>
       <tbody>
-        {% for driver in qualifying_result  %}
+        {% for lap, driver in zipped_quali  %}
         <tr>
           <th scope="row">{{ driver.position }}</th>
           <td>{{ driver.driver.name }}</td>
+          <td>{{ lap.best }}</td>
         </tr>
         {% endfor %}
       </tbody>

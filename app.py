@@ -104,6 +104,10 @@ class Laptimes:
     def __init__(self, name, lap_list):
         self.name = name
         self.lap_list = lap_list
+        self.best = 0
+
+    def best_lap(self):
+        self.best = min([i for i in self.lap_list if i is not None])
 
 @app.route('/<location>/')
 def get_location(location):
@@ -160,7 +164,8 @@ def get_location(location):
                            qualifying_lap_matrix=qualifying_lap_matrix[0],
                            qualifying_drivers=qualifying_lap_matrix[1],
                            qualifying_num_of_laps=qualifying_lap_matrix[2],
-                           qualifying_lap_class=qualifying_lap_matrix[3])
+                           qualifying_lap_class=qualifying_lap_matrix[3],
+                           zipped_quali=zip(qualifying_lap_matrix[3], qualifying_result))
 
 
 def make_lap_time_matrix(result, lap_times):
@@ -181,12 +186,15 @@ def make_lap_time_matrix(result, lap_times):
         lap_matrix[0][i] = result[i].driver.name
         lap_times_init =[None for i in range(num_of_laps)] 
         lap_class.append(Laptimes(result[i].driver.name, lap_times_init))
-
+    
     # add lap times to lap time matrix
     for lap in lap_times:
         driver_index = lap_matrix[0].index(lap.driver.name)
         lap_num = lap.lap_number 
         lap_matrix[lap_num][driver_index] = lap.lap_time
         lap_class[driver_index].lap_list[lap_num-1] = lap.lap_time
+
+    for driver in lap_class:
+        driver.best_lap()
 
     return lap_matrix[1:], lap_matrix[0], num_of_laps, lap_class
