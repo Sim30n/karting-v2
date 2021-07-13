@@ -123,8 +123,8 @@ def get_location(location):
     race_queries = []
     if driver:
         race_queries.append(Driver.name.ilike(driver_name))
-    if location:
-        race_queries.append(Race.location.ilike(search_location))
+    #if location:
+    race_queries.append(Race.location.ilike(search_location))
     race_queries.append(Result.race_type.ilike("Race"))
     race_queries.append(Lap.race_type.ilike("Race"))
 
