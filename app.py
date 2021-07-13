@@ -120,35 +120,43 @@ def get_location(location):
     #race_type = request.args.get("race_type")
     #race_t = "%{}%".format(race_type)
 
-    race_queries = []
+    race_result_queries = []
     if driver:
-        race_queries.append(Driver.name.ilike(driver_name))
-    #if location:
-    race_queries.append(Race.location.ilike(search_location))
-    race_queries.append(Result.race_type.ilike("Race"))
-    race_queries.append(Lap.race_type.ilike("Race"))
+        race_result_queries.append(Driver.name.ilike(driver_name))
+    race_result_queries.append(Race.location.ilike(search_location))
+    race_result_queries.append(Result.race_type.ilike("Race"))
 
-    qualifying_queries = []
+    race_lap_queries = []
     if driver:
-        qualifying_queries.append(Driver.name.ilike(driver_name))
-    if location:
-        qualifying_queries.append(Race.location.ilike(search_location))
-    qualifying_queries.append(Result.race_type.ilike("Qualifying"))
-    qualifying_queries.append(Lap.race_type.ilike("Qualifying"))
+        race_lap_queries.append(Driver.name.ilike(driver_name))
+    race_lap_queries.append(Race.location.ilike(search_location))
+    race_lap_queries.append(Lap.race_type.ilike("Race"))
+
+    qualifying_result_queries = []
+    if driver:
+        qualifying_result_queries.append(Driver.name.ilike(driver_name))
+    qualifying_result_queries.append(Race.location.ilike(search_location))
+    qualifying_result_queries.append(Result.race_type.ilike("Qualifying"))
     
+    qualifying_lap_queries = []
+    if driver:
+        qualifying_lap_queries.append(Driver.name.ilike(driver_name))
+    qualifying_lap_queries.append(Race.location.ilike(search_location))
+    qualifying_lap_queries.append(Lap.race_type.ilike("Qualifying"))
+
     """ Get race by location"""
-    race_result = Result.query.join(Race).join(Driver).filter(*race_queries).order_by(Result.position).all()
+    race_result = Result.query.join(Race).join(Driver).filter(*race_result_queries).order_by(Result.position).all()
     #result = Result.query.join(Race).join(Driver).filter(Race.location.ilike(search_location)).all()
 
     """ Get race lap times by location and driver name """
-    race_lap_times = Lap.query.join(Race).join(Driver).filter(*race_queries).all()
+    race_lap_times = Lap.query.join(Race).join(Driver).filter(*race_lap_queries).all()
 
     """ Get qualifying by location"""
-    qualifying_result = Result.query.join(Race).join(Driver).filter(*qualifying_queries).order_by(Result.position).all()
+    qualifying_result = Result.query.join(Race).join(Driver).filter(*qualifying_result_queries).order_by(Result.position).all()
     #result = Result.query.join(Race).join(Driver).filter(Race.location.ilike(search_location)).all()
 
     """ Get qualifying lap times by location and driver name """
-    qualifying_lap_times = Lap.query.join(Race).join(Driver).filter(*qualifying_queries).all()
+    qualifying_lap_times = Lap.query.join(Race).join(Driver).filter(*qualifying_lap_queries).all()
 
     """ Make lap time matrix"""
     race_lap_matrix = make_lap_time_matrix(race_result, race_lap_times)
