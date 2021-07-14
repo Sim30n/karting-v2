@@ -27,8 +27,13 @@
     </table>
   </div>
 
+  <!-- hide lap times button -->
+  <div class="text-center">
+    <button type="button" onclick="hideFunction()" class="btn btn-secondary">Näytä kaikki kierrosajat</button>
+  </div>
+  
   <!-- qualifying race lap time matrix -->
-  <div class="container">
+  <div class="container" id="hideDIV" style="display: none">
     <table class="table">
       <thead>
         <tr>
@@ -206,6 +211,18 @@ var chart2 = new Chart(
   ctx2,
   config2
 );
+</script>
+
+<!-- hide lap times script -->
+<script>
+  function hideFunction() {
+    var x = document.getElementById("hideDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
 </script>
 
 {% endblock %}
