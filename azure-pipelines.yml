@@ -15,8 +15,10 @@ steps:
 
     source /home/simon/karting-v2/venv/bin/activate
     pip3 install -r requirements.txt 
-    export FLASK_APP="app.py"
+    export FLASK_APP=$(FLASK_APP)
     export DATABASE_URL=$(DATABASE_URL)
+    export FLASK_ENV=$(FLASK_ENV)
+    export DEBUG=$(DEBUG)
     #flask db init
     flask db migrate -m "message"
     flask db upgrade
