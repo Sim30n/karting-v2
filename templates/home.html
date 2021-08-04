@@ -82,6 +82,8 @@
         <tr>
           <th scope="col">Positio</th>
           <th scope="col">Nimi</th>
+          <th scope="col">Pisteet</th>
+          <th scope="col">Paras kierrosaika</th>
         </tr>
       </thead>
       <tbody>
@@ -89,6 +91,10 @@
         <tr>
           <th scope="row">{{ driver.position }}</th>
           <td>{{ driver.driver.name }}</td>
+          <!-- TODO: make a logic for best lap time and points -->
+          <td>10</td> 
+          <td>34.23</td>
+          <!-- ----------------------------------------------- -->
         </tr>
         {% endfor %}
       </tbody>
