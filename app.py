@@ -173,7 +173,8 @@ def get_location(location):
                            qualifying_drivers=qualifying_lap_matrix[1],
                            qualifying_num_of_laps=qualifying_lap_matrix[2],
                            qualifying_lap_class=qualifying_lap_matrix[3],
-                           zipped_quali=zip(qualifying_lap_matrix[3], qualifying_result))
+                           zipped_quali=zip(qualifying_lap_matrix[3], qualifying_result),
+                           zipped_race=zip(race_lap_matrix[3], race_result))
 
 
 def make_lap_time_matrix(result, lap_times):
